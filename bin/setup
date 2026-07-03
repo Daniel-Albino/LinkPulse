@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# =============================================================================
+# bin/setup
+# Initial project setup script.
+# Run with: ruby bin/setup (or simply: bin/setup)
+# =============================================================================
+
+require "fileutils"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+def system!(*args)
+  system(*args, exception: true)
+end
+
+FileUtils.chdir APP_ROOT do
+  puts "\n== Configuring link_pulse =="
+
+  # Install gems
+  puts "\n-- Installing gems..."
+  system! "gem install bundler --conservative"
+  system("bundle check") || system!("bundle install")
+
+  # Create .env if it does not exist
+  unless File.exist?(".env")
+    puts "\n-- Creating .env file..."
+    FileUtils.cp ".env.example", ".env"
+    puts "   .env created. Update variables as needed."
+  end
+
+  # Prepare database
+  puts "\n-- Preparing database..."
+  system! "bin/rails db:prepare"
+
+  # Clean old compiled assets
+  puts "\n-- Cleaning old assets..."
+  FileUtils.rm_rf "tmp/cache"
+  FileUtils.rm_rf "public/assets"
+  FileUtils.mkdir_p "tmp/cache"
+
+  puts "\n== Setup complete! =="
+  puts "Run: bin/rails server"
+  puts "Or with Docker: docker compose up --build\n\n"
+end

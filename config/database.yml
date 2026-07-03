@@ -1,0 +1,29 @@
+# =============================================================================
+# config/database.yml
+# Database configuration for all environments.
+# DATABASE_URL, when set, takes precedence over the individual variables.
+# =============================================================================
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV.fetch('POSTGRES_HOST', 'db') %>
+  username: <%= ENV.fetch('POSTGRES_USER', 'postgres') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'password') %>
+  port: <%= ENV.fetch('POSTGRES_PORT', 5432) %>
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS', 5) %>
+  timeout: 5000
+  connect_timeout: 10
+  checkout_timeout: 5
+
+development:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DB', 'link_pulse_development') %>
+
+test:
+  <<: *default
+  database: link_pulse_test
+
+production:
+  <<: *default
+  database: <%= ENV.fetch('POSTGRES_DB', 'link_pulse_production') %>

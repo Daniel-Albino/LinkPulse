@@ -1,0 +1,25 @@
+# =============================================================================
+# config/locales/en.yml
+# English translations.
+# =============================================================================
+
+en:
+  flash:
+    actions:
+      create:
+        notice: "%{resource_name} was successfully created."
+        alert:  "Error creating %{resource_name}."
+      update:
+        notice: "%{resource_name} was successfully updated."
+        alert:  "Error updating %{resource_name}."
+      destroy:
+        notice: "%{resource_name} was successfully deleted."
+        alert:  "Error deleting %{resource_name}."
+
+  helpers:
+    select:
+      prompt: "Please select"
+    submit:
+      create: "Create %{model}"
+      update: "Save changes"
+      submit: "Submit"

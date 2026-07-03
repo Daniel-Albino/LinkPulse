@@ -1,0 +1,9 @@
+<%# app/views/shared/_flash.html.erb %>
+<%# Renderiza flash messages. Inclui no layout: <%= render "shared/flash" %> %>
+
+<% flash.each do |type, message| %>
+  <div class="<%= flash_class(type) %>" role="alert" data-controller="flash" data-flash-timeout-value="5000">
+    <span class="flash__message"><%= message %></span>
+    <button class="flash__close" data-action="flash#dismiss" aria-label="Fechar">&times;</button>
+  </div>
+<% end %>

@@ -1,0 +1,20 @@
+# =============================================================================
+# config/sidekiq.yml
+# Sidekiq configuration - queues and concurrency.
+# =============================================================================
+
+:concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 5) %>
+
+:queues:
+  - [critical, 10]   # Highest priority (urgent emails, payments)
+  - [default, 5]     # Normal jobs
+  - [mailers, 3]     # Mail delivery
+  - [low, 1]         # Low priority (reports, exports)
+
+:max_retries: 3
+
+:dead_max_jobs: 1_000
+:dead_timeout_in_seconds: <%= 6 * 30 * 24 * 60 * 60 %>  # 6 months in seconds
+
+# Logging
+:verbose: <%= ENV.fetch("SIDEKIQ_VERBOSE", "false") == "true" %>

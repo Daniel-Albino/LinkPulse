@@ -1,0 +1,74 @@
+# =============================================================================
+# .dockerignore - Files excluded from Docker build context
+# Reduces build context size and avoids copying sensitive files.
+# =============================================================================
+
+# Git
+.git
+.gitignore
+.gitattributes
+**/.gitkeep
+
+# Docker
+docker-compose.override.yml
+docker-compose.prod.yml
+Dockerfile*
+.dockerignore
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+docs/
+*.md
+
+# Logs
+log/
+*.log
+
+# Rails temporary files
+tmp/
+storage/
+
+# Assets compilados (gerados no build)
+public/assets
+
+
+# Bundle (instalado no container)
+vendor/bundle
+
+# Environment files (sensitive - never in container!)
+.env
+.env.*
+!.env.example
+
+# Development tooling
+.byebug_history
+.rspec
+.rubocop*
+.brakeman*
+
+# Coverage
+coverage/
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# CI/CD
+.github/
+.circleci/
+.travis.yml
+
+# Rename scripts (local development only)
+scripts/rename_project.sh
+
+# Unnecessary tests in production container
+spec/
+test/
+features/
+

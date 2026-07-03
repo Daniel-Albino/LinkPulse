@@ -1,0 +1,48 @@
+# =============================================================================
+# .gitignore - Files ignored by Git
+# =============================================================================
+
+# Environment variables (NEVER commit)
+.env
+.env.local
+.env.*.local
+
+# Logs
+/log/*
+!/log/.keep
+
+# Temporary files
+/tmp/*
+!/tmp/.keep
+
+# Locally installed gems
+/vendor/bundle
+
+
+# Compiled assets
+/public/assets
+
+# Storage (uploads, etc.)
+/storage/*
+!/storage/.keep
+
+# Boot
+/tmp/pids/*.pid
+
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Coverage
+/coverage
+
+# Byebug history
+.byebug_history
+
+.rspec_status

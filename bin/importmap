@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+# =============================================================================
+# bin/importmap
+# Manage JavaScript dependencies without Node.
+#   bin/importmap pin <package>     - add a dependency (vendored locally)
+#   bin/importmap unpin <package>   - remove a dependency
+#   bin/importmap outdated          - list outdated pins
+#   bin/importmap update            - update pinned packages
+# =============================================================================
+
+require_relative "../config/application"
+require "importmap/commands"

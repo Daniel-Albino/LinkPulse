@@ -1,0 +1,34 @@
+# =============================================================================
+# config/storage.yml
+# Active Storage configuration.
+# =============================================================================
+
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+# Amazon S3 - uncomment and configure for production
+# amazon:
+#   service: S3
+#   access_key_id:     <%= ENV["AWS_ACCESS_KEY_ID"] %>
+#   secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
+#   region:            <%= ENV.fetch("AWS_REGION", "eu-west-1") %>
+#   bucket:            <%= ENV.fetch("AWS_BUCKET", "link_pulse_production") %>
+
+# Google Cloud Storage
+# google:
+#   service: GCS
+#   project: <%= ENV["GCS_PROJECT"] %>
+#   credentials: <%= Rails.root.join("config/credentials/gcs.json") %>
+#   bucket: <%= ENV["GCS_BUCKET"] %>
+
+# Azure
+# microsoft:
+#   service: AzureStorage
+#   storage_account_name: <%= ENV["AZURE_STORAGE_ACCOUNT_NAME"] %>
+#   storage_access_key:   <%= ENV["AZURE_STORAGE_ACCESS_KEY"] %>
+#   container:            <%= ENV["AZURE_STORAGE_CONTAINER"] %>
