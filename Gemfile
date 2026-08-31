@@ -21,7 +21,10 @@ gem "sidekiq", "~> 8.1"
 gem "importmap-rails"
 gem "propshaft"
 gem "stimulus-rails"
+gem "tailwindcss-rails"
 gem "turbo-rails"
+gem "view_component", "~> 4.2"
+gem 'pagy', '~> 43.5.6'
 
 # Authentication
 gem "bcrypt", "~> 3.1"
@@ -52,6 +55,8 @@ group :development do
   gem "letter_opener_web"
   gem "rack-mini-profiler"
   gem "web-console"
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :test do

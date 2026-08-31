@@ -23,3 +23,10 @@ en:
       create: "Create %{model}"
       update: "Save changes"
       submit: "Submit"
+  
+  dashboard:
+    cards:
+      total_links: "Total Links"
+      total_clicks: "Total Clicks"
+      today_clicks: "Today's Clicks"
+      most_active_link: "Most Active Link"

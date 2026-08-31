@@ -1,0 +1,6 @@
+<% if @short_url.present? %>
+  <div class="mt-4 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-800 px-3 py-2 text-sm">
+    <span class="text-neutral-500 dark:text-neutral-400">Short URL:</span>
+    <%= render "copy_button", url: @short_url, label: @short_url %>
+  </div>
+<% end %>

@@ -1,7 +1,24 @@
 # link_pulse
 
-Rails 8.1 template with Docker, PostgreSQL, Redis, Sidekiq, and production-ready defaults.
-No Node/Yarn required — assets use the native Rails stack (importmap + propshaft).
+A URL shortener built with Rails 8, Hotwire and ViewComponent.
+
+Paste a long URL, get a short one. Every visit to a short link is recorded
+as a click event, and the dashboard shows totals per link.
+
+### How it works
+
+| Piece | Where |
+|---|---|
+| Link + ClickEvent models | `app/models/` |
+| Dashboard (stats + table) | `app/controllers/dashboard_controller.rb` |
+| Short link redirect | `app/controllers/redirects_controller.rb` — `GET /l/:short_code` |
+| UI components | `app/components/` (ViewComponent, vendored from Rails Blocks) |
+| Stimulus controllers | `app/javascript/controllers/` |
+
+Creating a link posts to `dashboard#generate_short_url` and redirects back to
+the dashboard, so the stats, the table and the pagination are all rendered
+from a single request. This is deliberate — see the note on live updates
+under Next Steps.
 
 ## Stack
 
@@ -208,6 +225,48 @@ in `.env`.
 ```bash
 docker compose run --rm rails rails db:reset_and_seed
 ```
+
+## Next Steps
+
+Known gaps, roughly in order of value:
+
+- **Pagination is wired to the wrong data.** `DashboardController#index`
+  paginates a hardcoded `team_members` array, not `Link.all`. The table
+  currently shows every link regardless of the page.
+- **No URL format validation.** `Link` only validates presence. Invalid input
+  reaches the database, and `create!` raises a 500 instead of showing an error.
+- **No unique index on `short_code`.** Uniqueness is only implied by the
+  generation algorithm; the database does not enforce it.
+- **Modal component is unfinished.** `Modal::Component` accepts a `title:` that
+  is never rendered, and the close button needs an `aria-label` (icon-only
+  buttons have no accessible name).
+- **Specs are all placeholders.** Every file under `spec/` is `pending`, and
+  `spec/factories/links.rb` cannot build a valid record. There is no
+  `spec/components/` — `view_component/test_helper` is not loaded in
+  `spec/rails_helper.rb`.
+- **Copy-to-clipboard for short links**, in the flash and per table row. For a
+  shortener, copying is the primary action, not clicking.
+
+### Note: live dashboard updates
+
+Updating the dashboard when someone clicks a short link cannot be done from the
+response to that request — the visitor is a different browser session. It
+requires broadcasting over Action Cable (Redis is already configured).
+
+Three constraints if this is ever picked up:
+
+1. **Broadcast from a background job, not from `RedirectsController`.** The
+   redirect is the hottest path in the app; rendering and pushing HTML there
+   slows the visitor down for someone else's benefit. Sidekiq is already
+   available.
+2. **Broadcasts have no request context.** Anything that depends on `request` —
+   pagination links in particular — will render incorrectly or fail. Broadcast
+   the stat cards only, not the paginated table.
+3. **Throttle it.** One broadcast per click will flood the socket for a popular
+   link, to update a number nobody reads at that resolution.
+
+This is a nice-to-have, not a requirement: reloading the page already shows
+correct numbers.
 
 ## License
 

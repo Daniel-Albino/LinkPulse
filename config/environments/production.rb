@@ -15,6 +15,7 @@ Rails.application.configure do
 
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info").to_sym
   config.log_tags = [:request_id]
+  config.silence_healthcheck_path = "/health"
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger = ActiveSupport::Logger.new($stdout)
@@ -37,6 +38,8 @@ Rails.application.configure do
     host: ENV.fetch("ACTION_MAILER_DEFAULT_URL_HOST", "yourdomain.com"),
     protocol: "https"
   }
+  Rails.application.routes.default_url_options[:host] = ENV.fetch("APP_HOST", "yourdomain.com")
+  Rails.application.routes.default_url_options[:protocol] = "https"
 
   config.active_record.dump_schema_after_migration = false
   config.active_job.queue_adapter = :sidekiq

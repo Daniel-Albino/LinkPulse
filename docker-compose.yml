@@ -14,6 +14,9 @@ services:
       context: .
       dockerfile: Dockerfile
       target: development          # Use development stage
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     image: link_pulse:development
     restart: unless-stopped
     depends_on:
@@ -54,6 +57,9 @@ services:
       context: .
       dockerfile: Dockerfile
       target: development
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     image: link_pulse:development
     restart: unless-stopped
     depends_on:
@@ -74,6 +80,35 @@ services:
       - RAILS_ENV=development
       - REDIS_URL=redis://redis:6379/0
       - SKIP_DB_PREPARE=true
+    networks:
+      - link_pulse_network
+
+  # ---------------------------------------------------------------------------
+  # Tailwind CSS watcher (rebuilds app/assets/builds/tailwind.css on change)
+  # ---------------------------------------------------------------------------
+  css:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: link_pulse:development
+    restart: unless-stopped
+    command: bin/rails tailwindcss:watch
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    env_file:
+      - .env
+      - docker/environments/development.env
+    environment:
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379/0
+      - SKIP_DB_PREPARE=true
+    stdin_open: true   # Tailwind's watch binary exits immediately if stdin is closed
+    tty: true
     networks:
       - link_pulse_network
 

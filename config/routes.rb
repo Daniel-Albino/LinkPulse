@@ -35,13 +35,12 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Root
-  # root "home#index"
+  root "dashboard#index"
 
   # Define your routes here:
-  # resources :articles
-  # namespace :api do
-  #   namespace :v1 do
-  #     resources :users
-  #   end
-  # end
+  get "/l/:short_code", to: "redirects#show"
+
+  # Dashboard
+  get "/dashboard", to: "dashboard#index"
+  post "/dashboard/generate_short_url", to: "dashboard#generate_short_url"
 end

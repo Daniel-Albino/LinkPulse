@@ -1,19 +1,16 @@
-#!/usr/bin/env bash
-# =============================================================================
-# bin/dev
-# Start all development processes (web + sidekiq) outside Docker.
-# Uses overmind or foreman when available; falls back to rails server only.
-# For Docker development use: docker compose up
-# =============================================================================
+#!/usr/bin/env sh
 
-set -e
-
-if command -v overmind > /dev/null 2>&1; then
-  exec overmind start -f Procfile.dev "$@"
-elif command -v foreman > /dev/null 2>&1; then
-  exec foreman start -f Procfile.dev "$@"
-else
-  echo "Tip: install foreman (gem install foreman) or overmind to also run sidekiq."
-  echo "Starting only the Rails server..."
-  exec bin/rails server "$@"
+if ! gem list foreman -i --silent; then
+  echo "Installing foreman..."
+  gem install foreman
 fi
+
+# Default to port 3000 if not specified
+export PORT="${PORT:-3000}"
+
+# Let the debug gem allow remote connections,
+# but avoid loading until `debugger` is called
+export RUBY_DEBUG_OPEN="true"
+export RUBY_DEBUG_LAZY="true"
+
+exec foreman start -f Procfile.dev "$@"

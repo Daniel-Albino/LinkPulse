@@ -3,6 +3,8 @@
 # =============================================================================
 
 class ApplicationController < ActionController::Base
+  include Pagy::Method
+
   # CSRF protection
   protect_from_forgery with: :exception
 

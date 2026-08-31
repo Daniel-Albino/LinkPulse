@@ -1,0 +1,8 @@
+<%= turbo_stream.update "dashboard_content" do %>
+  <%= render "cards" %>
+  <%= render "table" %>
+<% end %>
+
+<%= turbo_stream.update "short_url_result" do %>
+  <%= render "short_url" %>
+<% end %>

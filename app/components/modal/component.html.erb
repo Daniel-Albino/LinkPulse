@@ -1,0 +1,28 @@
+<div data-controller="modal">
+  <div data-action="click->modal#open">
+    <%= open_modal %>
+  </div>
+  <dialog id="add-item-modal" 
+    class="<%= dialog_classes %>" 
+    data-modal-target="modal" 
+    data-action="click->modal#backdropClose"
+  > 
+  <div class="absolute top-4 right-4" data-action="click->modal#close">
+    <%= render Buttons::Component.new(
+      icon_only: true,
+      variant: :ghost,
+      size: :sm,
+      icon: image_tag("x.svg"),
+      classes: "text-white"
+    ) %>
+  </div>
+    <%= render Card::Component.new do |card| %>
+      <% card.with_body do %>
+        <%= modal_content %>
+        <div class="flex justify-end mt-4">
+          <%= footer %>
+        </div>
+      <% end %>
+    <% end %>
+  </dialog>
+</div>
