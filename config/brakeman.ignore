@@ -1,0 +1,15 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "f877ead7ad8ce28ea1a3d19b5becea46eefc54d030419cd7e80f343c3295a362",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/redirects_controller.rb",
+      "line": 7,
+      "note": "Redirecting to a user-supplied external URL is the entire purpose of a URL shortener, so allow_other_host is intentional here. The risk Brakeman flags -- redirecting to a hostile scheme -- is handled at write time instead: UrlValidator restricts Link#url to absolute http/https URLs with a host, so javascript:, data: and file: URLs can never be persisted and therefore can never be redirected to. See spec/models/link_spec.rb for the coverage."
+    }
+  ],
+  "brakeman_version": "8.0.5"
+}

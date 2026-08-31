@@ -88,6 +88,9 @@ jobs:
       - name: Prepare database
         run: bundle exec rails db:prepare
 
+      - name: Build CSS
+        run: bundle exec rails tailwindcss:build
+
       - name: Run RSpec
         run: |
           bundle exec rspec \
