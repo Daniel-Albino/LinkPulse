@@ -7,8 +7,13 @@ class DashboardController < ApplicationController
   end
 
   def generate_short_url
-    link = Link.find_or_create_by(url: params[:url])
-    @short_url = link.create_short_url
+    link = Link.find_or_initialize_by(url: params[:url])
+
+    if link.persisted? || link.save
+      @short_url = link.create_short_url
+    else
+      @errors = link.errors.full_messages
+    end
 
     set_links
     set_cards_info
@@ -31,12 +36,20 @@ class DashboardController < ApplicationController
   def set_cards_info
     @total_links = @links.count
     @total_clicks = ClickEvent.count
-    @today_clicks = ClickEvent.where('created_at >= ?', Time.zone.now.beginning_of_day).count
-    @link_with_most_clicks = @links.joins(:click_events).group('links.id').order('COUNT(click_events.id) DESC').first
+    @today_clicks = ClickEvent.where("created_at >= ?", Time.zone.now.beginning_of_day).count
+    @link_with_most_clicks = @links.joins(:click_events).group("links.id").order("COUNT(click_events.id) DESC").first
   end
 
   def table_data(pagy_request: nil)
-    @table_data = @links.map do |link|
+    options = { limit: 5 }
+    options[:request] = pagy_request if pagy_request
+
+    # Pagy is handed the ActiveRecord relation, not an array, so LIMIT/OFFSET
+    # reach Postgres. Mapping first loaded every link on every dashboard
+    # render just to display five of them.
+    @pagy, links = pagy(@links, **options)
+
+    @table_data = links.map do |link|
       {
         code: link.short_code,
         short_url: link.create_short_url,
@@ -45,9 +58,5 @@ class DashboardController < ApplicationController
         created_at: link.created_at.strftime("%Y-%m-%d %H:%M:%S")
       }
     end
-
-    options = { limit: 5 }
-    options[:request] = pagy_request if pagy_request
-    @pagy, @table_data = pagy(@table_data, **options)
   end
 end

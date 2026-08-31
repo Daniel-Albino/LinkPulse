@@ -2,12 +2,11 @@
 
 module Modal
   class Component < ViewComponent::Base
-
     renders_one :open_modal
     renders_one :modal_content
     renders_one :footer
 
-    def initialize(title:, size: :default, **options)
+    def initialize(title:, size: :default, **_options)
       super()
       @title = title
       @size = size
@@ -30,6 +29,5 @@ module Modal
       when :full then "max-w-[calc(100vw-2rem)]"
       end
     end
-
   end
 end

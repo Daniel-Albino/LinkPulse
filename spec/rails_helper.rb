@@ -29,34 +29,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false # Gerido pelo DatabaseCleaner
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
-
-  # Factory Bot
-  config.include FactoryBot::Syntax::Methods
-
-  # Database Cleaner
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning { example.run }
-  end
-
-  # Para specs com JS (Capybara), usa truncation
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.after(:each, js: true) do
-    DatabaseCleaner.strategy = :transaction
-  end
 end
 
-# Shoulda Matchers
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
-end
+# FactoryBot, DatabaseCleaner and Shoulda Matchers are configured in
+# spec/support/*.rb, which is loaded above. Do not duplicate them here:
+# a second `around(:each) { DatabaseCleaner.cleaning }` would nest cleaning
+# blocks around every example.

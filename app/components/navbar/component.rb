@@ -34,7 +34,8 @@ module Navbar
     # @param show_mobile_menu [Boolean] Whether to show mobile hamburger menu
     # @param mobile_menu_content_id [String] Content ID for mobile menu dropdown
     # @param classes [String] Additional CSS classes for the wrapper
-    def initialize(variant: :default, sticky: false, show_mobile_menu: true, mobile_menu_content_id: "mobile-menu-content", classes: nil)
+    def initialize(variant: :default, sticky: false, show_mobile_menu: true,
+                   mobile_menu_content_id: "mobile-menu-content", classes: nil)
       super()
       @variant = VARIANTS.include?(variant) ? variant : :default
       @sticky = sticky
@@ -95,9 +96,9 @@ module Navbar
       ) do
         tag.g(
           fill: "none",
-          'stroke-linecap': "round",
-          'stroke-linejoin': "round",
-          'stroke-width': "1.5",
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round",
+          "stroke-width": "1.5",
           stroke: "currentColor"
         ) do
           safe_join([

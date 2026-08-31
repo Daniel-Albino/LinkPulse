@@ -73,9 +73,7 @@ module Table
     def scroll_wrapper_classes
       base = "overflow-x-auto"
       classes = [base]
-      if @max_height
-        classes << "overflow-y-auto small-scrollbar"
-      end
+      classes << "overflow-y-auto small-scrollbar" if @max_height
       classes.join(" ")
     end
 

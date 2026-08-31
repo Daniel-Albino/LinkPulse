@@ -11,7 +11,11 @@ Rails.application.configure do
     policy.object_src :none
     policy.script_src :self, :https
     policy.style_src :self, :https
-    policy.connect_src :self, :https, "http://localhost:3000", "ws://localhost:3000"
+    if Rails.env.development?
+      policy.connect_src :self, :https, "http://localhost:3000", "ws://localhost:3000"
+    else
+      policy.connect_src :self, :https
+    end
   end
 
   # Generate automatic nonce for allowed inline scripts.

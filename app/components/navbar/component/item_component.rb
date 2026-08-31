@@ -14,7 +14,8 @@ module Navbar
       # @param align [Symbol] Dropdown alignment: :start, :center, :end
       # @param mobile_hidden [Boolean] Whether to hide this item on mobile
       # @param classes [String] Additional CSS classes
-      def initialize(label:, href: nil, dropdown: false, content_id: nil, align: :center, mobile_hidden: false, classes: nil)
+      def initialize(label:, href: nil, dropdown: false, content_id: nil, align: :center, mobile_hidden: false,
+                     classes: nil)
         super()
         @label = label
         @href = href
@@ -62,9 +63,9 @@ module Navbar
           viewBox: "0 0 24 24"
         ) do
           tag.path(
-            'stroke-linecap': "round",
-            'stroke-linejoin': "round",
-            'stroke-width': "2",
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round",
+            "stroke-width": "2",
             d: "M19 9l-7 7-7-7"
           )
         end

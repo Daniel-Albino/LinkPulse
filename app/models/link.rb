@@ -1,8 +1,8 @@
 class Link < ApplicationRecord
-
   has_many :click_events, dependent: :destroy
 
   validates :url, presence: true, uniqueness: true
+  validates :url, url: true, allow_blank: true
 
   after_create :generate_short_code
 
@@ -18,7 +18,7 @@ class Link < ApplicationRecord
   def generate_short_code
     characters = [("0".."9"), ("A".."Z"), ("a".."z")].flat_map(&:to_a).join
     base62 = ""
-    number = self.id
+    number = id
     while number.positive?
       rest = number % 62
       base62 += characters[rest]
