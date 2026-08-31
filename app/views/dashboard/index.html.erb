@@ -1,0 +1,56 @@
+<div class="flex justify-end">
+  <%= render Modal::Component.new(
+    title: "Add Item",
+    with_footer: true,
+    ) do |modal| %>
+    <% modal.with_open_modal do %>
+      <%= render Buttons::Component.new(
+        text: "Add Item",
+        variant: :secondary,
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><g fill="currentColor"><path d="M14.75,9.75H3.25c-.414,0-.75-.336-.75-.75s.336-.75,.75-.75H14.75c.414,0,.75,.336,.75,.75s-.336,.75-.75,.75Z"></path><path d="M9,15.5c-.414,0-.75-.336-.75-.75V3.25c0-.414,.336-.75,.75-.75s.75,.336,.75,.75V14.75c0,.414-.336,.75-.75,.75Z"></path></g></svg>'
+      ) %>
+    <% end %>
+    <% modal.with_modal_content do %>
+      <h3 class="font-bold text-lg">Add Item</h3>
+
+      <div class="py-4">
+        <%= form_with url: dashboard_generate_short_url_path,
+          method: :post,
+          id: "new_link_form" do |f| %>
+          <%= render Forms::Component.new(
+            label: "URL",
+            name: "url",
+            id: "link_url",
+            required: true,
+            helper_text: "Cola aqui o link que queres encurtar."
+          ) do |c| %>
+            <% c.with_input do %>
+              <%= f.url_field :url,
+                id: "link_url",
+                placeholder: "https://exemplo.com",
+                class: "w-full rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400" %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <div id="short_url_result">
+          <%= render "short_url" %>
+        </div>
+      </div>
+
+    <% end %>
+
+    <% modal.with_footer do %>
+      <%= render Buttons::Component.new(
+        text: "Submit",
+        variant: :secondary,
+        type: "submit",
+        form: "new_link_form",
+      ) %>
+    <% end %>
+  <% end %>
+</div>
+<div id="dashboard_content" class="space-y-4 mt-4">
+  <%= render 'cards' %>
+  <%= render 'table' %>
+</div>

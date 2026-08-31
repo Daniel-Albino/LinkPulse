@@ -26,3 +26,25 @@ Metrics/BlockLength:
     - "config/environments/**/*"
     - "lib/tasks/**/*"
     - "Gemfile"
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics:
+  Exclude:
+    - "app/components/**/*"
+
+Layout/LineLength:
+  Exclude:
+    - "app/components/**/*"
+
+Lint/DuplicateBranch:
+  Exclude:
+    - "app/components/**/*"
+
+Style/HashLikeCase:
+  Exclude:
+    - "app/components/**/*"

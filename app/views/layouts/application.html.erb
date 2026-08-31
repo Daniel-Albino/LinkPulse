@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
+<html lang="<%= I18n.locale %>" class="dark sl-theme-dark">
   <head>
     <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,16 +9,40 @@
     <%= csp_meta_tag %>
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+
+    <!-- Shoelace -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/components/color-picker/color-picker.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/dark.css"
+    />
+
+    <!-- Tom Select -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.6.1/dist/css/tom-select.css" rel="stylesheet">
+
+    <!-- Air Datepicker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.6.0/air-datepicker.min.css">
+
+    <!-- Photoswipe -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe/dist/photoswipe.css">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= render "shared/flash" %>
+    <div class="p-6">
+      <%= render "shared/flash" %>
+      <%= render "shared/navbar" %>
 
-    <main>
-      <%= yield %>
-    </main>
+      <main class="mt-6">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

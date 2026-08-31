@@ -1,0 +1,47 @@
+<%= render(Card::Component.new) do |card| %>
+    <% card.with_body do %>
+      <p class="text-neutral-700 dark:text-neutral-300">
+
+        <h3 class="text-lg/6 font-medium text-neutral-900 dark:text-white mb-4">Links</h3>
+
+        <% unless @table_data.any? %>
+          <p class="text-neutral-700 dark:text-neutral-300">No links found.</p>
+        <% else %>
+          <%
+            columns = [
+              { label: "Code", align: :left },
+              { label: "Short URL", align: :left },
+              { label: "Destination", align: :left },
+              { label: "Clicks", align: :left },
+              { label: "Created At", align: :left }
+            ]
+          %>
+          <%= render(Table::Component.new) do |table| %>
+            <% columns.each do |column| %>
+              <% table.with_column(label: column[:label], align: column[:align]) %>
+            <% end %>
+
+            <% @table_data.each do |link| %>
+              <% table.with_row do |row| %>
+                <% row.with_cell(primary: true) { link[:code] } %>
+                <% row.with_cell do %>
+                  <%= render "copy_button", url: link[:short_url] %>
+                <% end %>
+                <% row.with_cell { link_to link[:url], link[:url], target: "_blank", rel: "noopener noreferrer" } %>
+                <% row.with_cell { link[:clicks] } %>
+                <% row.with_cell { link[:created_at] } %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <div class="pr-1 pl-1 mt-2">
+            <%= render Pagination::Component.new(
+              pagy: @pagy,
+              variant: :compact,
+              frame_id: "items-frame"
+            ) %>
+          </div>
+        <% end %>
+      </p>
+    <% end %>
+  <% end %>

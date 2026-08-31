@@ -82,15 +82,31 @@ RUN apt-get update -qq && \
       zsh && \
     rm -rf /var/lib/apt/lists/*
 
-# Oh My Zsh for a nicer `docker compose exec rails zsh` experience (dev only)
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
-    echo 'export PATH="/usr/local/bundle/bin:$PATH"' >> /root/.zshrc && \
-    ln -sf /app/.irbrc /root/.irbrc
+# Non-root user matching the host UID/GID (pass --build-arg UID=$(id -u) GID=$(id -g)
+# if yours differ from 1000/1000) so files created via bind mount (e.g. `rails g`,
+# `bundle install`) are owned by the host user instead of root.
+# Home is /home/dev, NOT /app: /app is overmounted by the bind volume at runtime,
+# so any dotfiles placed there would be hidden.
+ARG UID=1000
+ARG GID=1000
+RUN groupadd --gid ${GID} dev && \
+    useradd --uid ${UID} --gid ${GID} --home-dir /home/dev --create-home --shell /bin/zsh dev
+
+# Oh My Zsh for a nicer `docker compose exec rails zsh` experience (dev only),
+# installed into the dev user's home.
+RUN HOME=/home/dev ZSH=/home/dev/.oh-my-zsh \
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
+    echo 'export PATH="/usr/local/bundle/bin:$PATH"' >> /home/dev/.zshrc && \
+    ln -sf /app/.irbrc /home/dev/.irbrc && \
+    chown -R dev:dev /home/dev
 
 COPY docker/entrypoints/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-COPY . .
+COPY --chown=dev:dev . .
+RUN chown -R dev:dev /usr/local/bundle
+
+USER dev
 
 EXPOSE 3000
 

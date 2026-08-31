@@ -93,7 +93,21 @@ else
 fi
 
 # =============================================================================
-# STEP 4 - Run the container command
+# STEP 4 - Development only: remove precompiled assets
+# A leftover public/assets/.manifest.json switches Propshaft to its static
+# resolver, freezing asset digests at boot and breaking CSS live reload.
+# The directory is a regenerable build artifact (gitignored); production
+# images bake their own copy during the image build, and this guard never
+# runs there (RAILS_ENV check).
+# =============================================================================
+if [ "${RAILS_ENV:-}" = "development" ] && [ -e "${APP_HOME}/public/assets" ]; then
+  log_warning "Precompiled assets found in development. Removing public/assets..."
+  rm -rf "${APP_HOME}/public/assets"
+  log_success "public/assets removed. Propshaft will use the dynamic resolver."
+fi
+
+# =============================================================================
+# STEP 5 - Run the container command
 # =============================================================================
 log_success "Container ready. Starting: $*"
 echo ""

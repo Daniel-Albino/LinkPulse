@@ -1,0 +1,29 @@
+<div class="columns-4 gap-4">
+  <%= render(Card::Component.new) do |card| %>
+    <% card.with_body do %>
+      <h3 class="text-lg/6 font-medium text-neutral-900 dark:text-white"><%= I18n.t('dashboard.cards.total_links') %></h3>
+      <p class="text-neutral-700 dark:text-neutral-300 mt-2"><%= @total_links %></p>
+    <% end %>
+  <% end %>
+
+  <%= render(Card::Component.new) do |card| %>
+    <% card.with_body do %>
+      <h3 class="text-lg/6 font-medium text-neutral-900 dark:text-white"><%= I18n.t('dashboard.cards.total_clicks') %></h3>
+      <p class="text-neutral-700 dark:text-neutral-300 mt-2"><%= @total_clicks %></p>
+    <% end %>
+  <% end %>
+
+  <%= render(Card::Component.new) do |card| %>
+    <% card.with_body do %>
+      <h3 class="text-lg/6 font-medium text-neutral-900 dark:text-white"><%= I18n.t('dashboard.cards.today_clicks') %></h3>
+      <p class="text-neutral-700 dark:text-neutral-300 mt-2"><%= @today_clicks %></p>
+    <% end %>
+  <% end %>
+
+  <%= render(Card::Component.new) do |card| %>
+    <% card.with_body do %>
+      <h3 class="text-lg/6 font-medium text-neutral-900 dark:text-white"><%= I18n.t('dashboard.cards.most_active_link') %></h3>
+      <p class="text-neutral-700 dark:text-neutral-300 mt-2"><%= @link_with_most_clicks&.short_code || "N/A" %></p>
+    <% end %>
+  <% end %>
+</div>

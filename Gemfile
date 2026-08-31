@@ -19,9 +19,12 @@ gem "sidekiq", "~> 8.1"
 
 # Assets & frontend (native Rails 8 stack, no Node required)
 gem "importmap-rails"
+gem "pagy", "~> 43.5.6"
 gem "propshaft"
 gem "stimulus-rails"
+gem "tailwindcss-rails"
 gem "turbo-rails"
+gem "view_component", "~> 4.2"
 
 # Authentication
 gem "bcrypt", "~> 3.1"
@@ -48,6 +51,8 @@ group :development, :test do
 end
 
 group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
   gem "bullet"
   gem "letter_opener_web"
   gem "rack-mini-profiler"

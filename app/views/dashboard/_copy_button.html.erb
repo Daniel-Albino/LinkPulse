@@ -1,0 +1,12 @@
+<%= render Buttons::Component.new(
+      text: url,
+      variant: :ghost,
+      data: {
+        controller: "clipboard",
+        action: "clipboard#copyToClipboard",
+        clipboard_target: "button",
+        clipboard_url_value: url,
+        clipboard_copied_text_value: "Copied!", 
+        clipboard_default_text_value: "Copy", 
+        clipboard_error_text_value: "Error copying!" 
+      }) %>
