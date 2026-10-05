@@ -25,6 +25,7 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "turbo-rails"
 gem "view_component", "~> 4.2"
+gem "ui_kit", github: "Daniel-Albino/ui_kit"
 
 # Authentication
 gem "bcrypt", "~> 3.1"

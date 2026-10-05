@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/Daniel-Albino/ui_kit.git
+  revision: cacdf5c8418821aa087ffce406e25675283baf3e
+  specs:
+    ui_kit (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -436,6 +442,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbo-rails
   tzinfo-data
+  ui_kit!
   view_component (~> 4.2)
   web-console
 
