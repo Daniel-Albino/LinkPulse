@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # =============================================================================
 # STAGE 1: base
 # Base image shared by development and production.
@@ -61,8 +62,10 @@ RUN apt-get update -qq && \
 FROM build AS dev-gems
 
 COPY .ruby-version Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf "${BUNDLE_PATH}/ruby/*/cache" "${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git"
+RUN --mount=type=secret,id=github_token \
+    BUNDLE_GITHUB__COM="$(cat /run/secrets/github_token)" \
+    bundle install && \
+    rm -rf ${BUNDLE_PATH}/ruby/*/cache ${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git
 
 # =============================================================================
 # STAGE 4: development
@@ -123,8 +126,10 @@ ENV BUNDLE_WITHOUT="development test" \
     BUNDLE_DEPLOYMENT=1
 
 COPY .ruby-version Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf "${BUNDLE_PATH}/ruby/*/cache" "${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git"
+RUN --mount=type=secret,id=github_token \
+    BUNDLE_GITHUB__COM="$(cat /run/secrets/github_token)" \
+    bundle install && \
+    rm -rf ${BUNDLE_PATH}/ruby/*/cache ${BUNDLE_PATH}/ruby/*/bundler/gems/*/.git
 
 # =============================================================================
 # STAGE 6: assets
