@@ -95,6 +95,11 @@ jobs:
       - name: Build CSS
         run: bundle exec rails tailwindcss:build
 
+      - name: Verify Tailwind CSS Build
+        run: |
+          cat app/assets/builds/tailwind/ui_kit.css
+          grep -c '\.bg-fuchsia-600' app/assets/builds/tailwind.css
+
       - name: Run RSpec
         run: |
           bundle exec rspec \
