@@ -2,4 +2,5 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@import "../builds/tailwind/ui_kit";
 @import "./railsblocks.css";
