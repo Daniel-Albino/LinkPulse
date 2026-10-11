@@ -34,6 +34,8 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+        env:
+          BUNDLE_GITHUB__COM: ${{ secrets.UI_KIT_TOKEN }}
 
       - name: RuboCop
         run: bundle exec rubocop --no-color --format github
@@ -84,12 +86,19 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+        env:
+          BUNDLE_GITHUB__COM: ${{ secrets.UI_KIT_TOKEN }}
 
       - name: Prepare database
         run: bundle exec rails db:prepare
 
       - name: Build CSS
         run: bundle exec rails tailwindcss:build
+
+      - name: Verify Tailwind CSS Build
+        run: |
+          cat app/assets/builds/tailwind/ui_kit.css
+          grep -c '\.bg-fuchsia-600' app/assets/builds/tailwind.css
 
       - name: Run RSpec
         run: |
@@ -129,3 +138,5 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: link_pulse:${{ github.sha }}
+          secrets: |
+            github_token=${{ secrets.UI_KIT_TOKEN }}

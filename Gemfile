@@ -24,6 +24,7 @@ gem "propshaft"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "turbo-rails"
+gem "ui_kit", github: "Daniel-Albino/ui_kit", branch: "feat/add-tailwind-v4"
 gem "view_component", "~> 4.2"
 
 # Authentication

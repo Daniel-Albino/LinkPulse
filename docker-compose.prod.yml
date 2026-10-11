@@ -11,6 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
+      secrets:
+        - github_token
     image: link_pulse:production
     restart: always
     depends_on:
@@ -54,6 +56,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
+      secrets:
+        - github_token
     image: link_pulse:production
     restart: always
     depends_on:
@@ -130,3 +134,7 @@ volumes:
   postgres_data:
   redis_data:
   nginx_logs:
+
+secrets:
+  github_token:
+    environment: BUNDLE_GITHUB__COM
