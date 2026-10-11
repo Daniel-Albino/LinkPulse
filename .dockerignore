@@ -32,7 +32,8 @@ storage/
 
 # Assets compilados (gerados no build)
 public/assets
-
+app/assets/builds/*
+!app/assets/builds/.keep
 
 # Bundle (instalado no container)
 vendor/bundle
